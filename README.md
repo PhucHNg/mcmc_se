@@ -4,12 +4,12 @@
  
 Markov Chain Monte Carlo (MCMC) is an essential technique in estimating parameters of Bayesian models. 
 Given a large enough number of sample size, MCMC sampler has been showed to converge to the 
-true posterior distribution. However, in practice, it's still difficult to determine
-how large is a large sample size (Asmussen & Carlin, 2011).
+true posterior distribution (Asmussen & Carlin, 2011). However, in practice, it's still difficult to determine
+how large is a large sample size.
 Many commonly used diagnostics and stopping rules for MCMC chains
 tend to only focus on the stablization of the posterior mean estimates (Cowles & Glynn, 1996). 
-In this project, we test different approaches to estimate the stablization of the estimate of the whole posterior distribution with toy univariate and multivariate examples.
-Specifically, we attempted to measure this "stablization" by:
+In this project, we test different approaches to estimate the stablization of the whole posterior distribution with toy univariate and multivariate examples.
+Specifically, we attempt to measure this "stablization" by:
 
 + Comparing the distributions of multiple MCMC samples using Kolmogorov-Smirnov test statistics in univariate case, and more general multivariate two sample tests in bivariate case.
 
@@ -21,7 +21,7 @@ Specifically, we attempted to measure this "stablization" by:
 
 ### Convergence of multiple samples
 
-The idea behind this experiment is that two MCMC samples, starting at different (ideally overdispersed) intital conditions, will appear to be two samples drawn from the same distribution when they have both converged to the true posterior density. The Kolmogorov-Smirnov (KS) test statistics is an efficient measure to test the null hypothesis that two given samples are from the same density function. This test is particularly useful in this context because it does not make any assumption about the underlying distribution. The p-value associated with this test statistics, however, is not useful because it's always significant when the sample size is large.
+The idea behind this experiment is that two MCMC samples, starting at different (ideally overdispersed) intital conditions, will appear to be two samples drawn from the same distribution when they have both converged to the true posterior density. The Kolmogorov-Smirnov (KS) test statistics is an efficient measure to test the null hypothesis that two given samples are from the same distribution. This test is particularly useful in this context because it does not make any assumption about the underlying distribution. The p-value associated with this test statistics, however, is not useful because it's always very small when the sample size is large.
 
 #### Univariate case
 
@@ -67,7 +67,11 @@ Though the idea of using two sample test statistics to compare chains' distribut
 
 ### Reduction of standard error across quantiles
 
-A common stopping rule is determining a level of accuracy and stop the chains whenever the batch mean standard error estimate is below this level. This standard error is usually calculated for the posterior mean, though there also exists methods to estimate standard error of user-specified quantile. Since we are interested in the convergence of the whole posterior density, we propose extending the above stopping rule to include standard error estimates of all quantiles. We implemented our idea as follows: Determine a desired level of accuracy specific to the application domain. Determine the quantiles at which s.e. of posterior estimate is calculated. For every 100 time steps, we calculate the s.e. for all quantiles determined in previous step and record the maximum s.e. MCMC chain can in theory be stopped after the maximum s.e. across the whole posterior estimate is below the accuracy level.
+A common stopping rule is determining a level of accuracy and stop the chains whenever the batch mean standard error estimate is below this level. This standard error is usually calculated for the posterior mean, though there also exists methods to estimate standard error of user-specified quantile. Since we are interested in the convergence of the whole posterior density, we propose extending the above stopping rule to include standard error estimates of all quantiles. We implemented our idea as follows: Determine a desired level of accuracy specific to the application domain. Determine the quantiles at which s.e. of posterior estimate is calculated. For every 100 time steps, we calculate the s.e. for all quantiles determined in previous step and record the maximum s.e. MCMC chain can in theory be stopped after the maximum s.e. across the whole posterior estimate is below the accuracy level. Similar to the previous approach, we run simulations on the following target distributions:
+
++ Normal: N(0,1)
++ Exponential: Exp(1)
++ Bimodal: of two overlapping normal distributions: X = 0.3N(1,1) + 0.7N(5,1)
 
 | Normal                    | Exponential               | Bimodal                             |
 |:-------------------------:|:-------------------------:|:-----------------------------------:|
@@ -75,7 +79,7 @@ A common stopping rule is determining a level of accuracy and stop the chains wh
 
 *Figure 3*: Comparison between maximum CBM s.e. at different quantiles (red) and CBM of the mean (blue) for different target distributions.
 
-As seen in Figure 3, the maximum s.e. across all quantile is always larger than that of the mean. Thus, monitoring s.e. of the mean alone might lead to premature termination of MCMC sampling. Calculating the standard error for every quantiles is computationally intensive. For a simple standard normal toy example, we need to check 1000 quantiles to get a good--stable across different runs of the experiments--estimate of the maximum standard error across quantiles. Depending on the problem, we might need to check an even bigger number of quantiles to ensure the resulting maximum s.e. curve is somewhat "smooth". 
+As seen in Figure 3, the maximum s.e. across all quantile is always larger than that of the mean. Thus, monitoring s.e. of the mean alone might lead to premature termination of MCMC simulations. Calculating the standard error for every quantiles is computationally intensive. For a simple normal toy example, we need to check 1000 quantiles to get a good--stable across different runs of the experiments--estimate of the maximum standard error across quantiles. Depending on the problem, we might need to check an even bigger number of quantiles to ensure the resulting maximum s.e. curve is replicable. 
 
 |                                           |                                                |
 |:-----------------------------------------:|:-----------------------------------------------|

@@ -91,9 +91,9 @@ In addition, one might standardize the level of accuracy across parameters of di
 
 Instead of running multiple chains and comparing them with KS test, we experiment with taking bootstrap resamples of a single chain and calculating a KS statistics between every pair for every 100 time steps. The maximum KS statisitics is recorded. Since all the resamples are drawn from the same distribution, the KS test ends up saying that all our bootstrap resamples have the same underlying distribution. Nevertheless, the KS test statistics decreases as the MCMC sample size increases. However, since this test also relies on the KS test, it would not be scalable for multivariate case.
 
-          | 
-:--------:|:--------:
-![](plots/bootstrap/resamples_chain_1000_long-1.png) | ![](plots/bootstrap/bootstrap_ks.png)
+|          |          | 
+|:--------:|:--------:|
+|![](plots/bootstrap/resamples_chain_1000_long-1.png) | ![](plots/bootstrap/bootstrap_ks.png) |
 
 *Figure 5*: Left plot: Visualization of the target distribution (solid red) and 1000 bootstrap resamples of a chain of size 1000 (dashed blue). Right plot: Comparison between maximum KS statistics between the original chain and each resample (red), between resamples (green), and consistent batch mean s.e. (blue).
 

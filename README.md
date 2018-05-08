@@ -69,9 +69,9 @@ Though the idea of using two sample test statistics to compare chains' distribut
 
 A common stopping rule is determining a level of accuracy and stop the chains whenever the batch mean standard error estimate is below this level. This standard error is usually calculated for the posterior mean, though there also exists methods to estimate standard error of user-specified quantile. Since we are interested in the convergence of the whole posterior density, we propose extending the above stopping rule to include standard error estimates of all quantiles. We implemented our idea as follows: Determine a desired level of accuracy specific to the application domain. Determine the quantiles at which s.e. of posterior estimate is calculated. For every 100 time steps, we calculate the s.e. for all quantiles determined in previous step and record the maximum s.e. MCMC chain can in theory be stopped after the maximum s.e. across the whole posterior estimate is below the accuracy level.
 
-Target | Normal                    | Exponential               | Bimodal
-------:|:-------------------------:|:-------------------------:|:-----------------------------------:
-       |![](plots/quantile_se/sequantile_normal.png)  |  ![](plots/quantile_se/sequantile_bimodal.png) | ![](plots/quantile_se/sequantile_exponential.png)
+| Normal                    | Exponential               | Bimodal                             |
+|:-------------------------:|:-------------------------:|:-----------------------------------:|
+|![](plots/quantile_se/sequantile_normal.png)  |  ![](plots/quantile_se/sequantile_bimodal.png) | ![](plots/quantile_se/sequantile_exponential.png) |
 
 *Figure 3*: Comparison between maximum CBM s.e. at different quantiles (red) and CBM of the mean (blue) for different target distributions.
 

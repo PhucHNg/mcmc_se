@@ -37,9 +37,9 @@ The approach mentioned above is implemented as follows: Determine a desirable va
 
 Target | $N(0,1)$                  | $Exp(1)$                  | $0.3N(1,1) + 0.7N(5,1)$
 ------:|:-------------------------:|:-------------------------:|:-----------------------------------:
-       |![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_normal_1_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_exponential_1_.png) | ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_bimodal_1_.png)
-       |![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_normal_2_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_exponential_2_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_bimodal_2_.png)
-       |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_normal_3_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_exponential_3_.png)  | ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_bimodal_3_.png)
+       |![](plots/univariate_ks/multichain_2018-04-https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_exponential_1_.png) | ![](plots/univariate_ks/multichain_2018-04-16_20104_bimodal_1_.png)
+       # |![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_normal_2_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_exponential_2_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_bimodal_2_.png)
+       # |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_normal_3_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_exponential_3_.png)  | ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_bimodal_3_.png)
 
 [SHOWS THREE PLOTS SUPERIMPOSED STATISTICS FOR THREE TARGET DISTRIBUTION]
 

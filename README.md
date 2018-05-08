@@ -4,10 +4,10 @@
  
 Markov Chain Monte Carlo (MCMC) is an essential technique in estimating parameters of Bayesian models. 
 Given a large enough number of sample size, MCMC sampler has been showed to converge to the 
-true posterior distribution (CITE STH). However, in practice, it's still difficult to determine
-how large is a large sample size.
+true posterior distribution. However, in practice, it's still difficult to determine
+how large is a large sample size (Asmussen & Carlin, 2011).
 Many commonly used diagnostics and stopping rules for MCMC chains
-tend to only focus on the stablization of the posterior mean estimates (CITE REVIEW PAPER BY COWELS). 
+tend to only focus on the stablization of the posterior mean estimates (Cowles & Glynn, 1996). 
 In this project, we test different approaches to estimate the stablization of the estimate of the whole posterior distribution with toy univariate and multivariate examples.
 Specifically, we attempted to measure this "stablization" by:
 
@@ -21,7 +21,7 @@ Specifically, we attempted to measure this "stablization" by:
 
 ### Convergence of multiple samples
 
-The idea behind this experiment is that two MCMC samples, starting at different (ideally overdispersed) intital conditions, will appear to be two samples drawn from the same distribution when they have both converged to the true posterior density. The Kolmogorov-Smirnov (KS) (LINK TO KS WIKI) test statistics is an efficient measure to test the null hypothesis that two given samples are from the same density function. This test is particularly useful in this context because it does not make any assumption about the underlying distribution. The p-value associated with this test statistics, however, is not useful because it's always significant when the sample size is large.
+The idea behind this experiment is that two MCMC samples, starting at different (ideally overdispersed) intital conditions, will appear to be two samples drawn from the same distribution when they have both converged to the true posterior density. The Kolmogorov-Smirnov (KS) test statistics is an efficient measure to test the null hypothesis that two given samples are from the same density function. This test is particularly useful in this context because it does not make any assumption about the underlying distribution. The p-value associated with this test statistics, however, is not useful because it's always significant when the sample size is large.
 
 #### Univariate case
 
@@ -31,42 +31,44 @@ We run simulations on the following target distributions:
 + Exponential: $Exp(1)$
 + Bimodal: of two overlapping normal distributions: $X = 0.3N(1,1) + 0.7N(5,1)$
 
-and compare the stopping points given by the approach mentioned above, the Gelman-Rubin diagnostic (CITE CODA), and naive posterior mean standard error (CITE MCMCSE).
+and compare the stopping points given by the approach mentioned above, the Gelman-Rubin diagnostic (Gelman & Rubin, 1992; implemented in `coda`), and naive posterior mean standard error (Flegal & Jones, 2010; implemented in `mcmcse`).
 
 The approach mentioned above is implemented as follows: Determine a desirable value for the KS statistics (in this experiment, we chose 0.05) which equates to how similar MCMC samples' CDF's are. Since KS statistics is between 0 and 1, one might establish a standardized cut off value across parameters of different scales. Four MCMC chains are ran, starting at points spread out across the proposal distributions. A KS statistic is calculated every 100 time steps between every two chains. The maximum KS statistics is then recorded.
 
-Target | $N(0,1)$                  | $Exp(1)$                  | $0.3N(1,1) + 0.7N(5,1)$
+Target | Normal                    | Exponential               | Bimodal
 ------:|:-------------------------:|:-------------------------:|:-----------------------------------:
-       |![](plots/univariate_ks/multichain_2018-04-https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_exponential_1_.png) | ![](plots/univariate_ks/multichain_2018-04-16_20104_bimodal_1_.png)
-       # |![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_normal_2_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_exponential_2_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_bimodal_2_.png)
-       # |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_normal_3_.png)  |  ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_exponential_3_.png)  | ![](https://github.com/PhucHNg/mcmc_se/blob/master/plots/univariate_ks/multichain_2018-04-16_20104_bimodal_3_.png)
+KS test|![](plots/univariate_ks/multichain_2018-04-16_20104_normal_1_.png)  |  ![](plots/univariate_ks/multichain_2018-04-16_20104_exponential_1_.png) | ![](plots/univariate_ks/multichain_2018-04-16_20104_bimodal_1_.png)
+CBM s.e.|![](plots/univariate_ks/multichain_2018-04-16_20104_normal_2_.png)  |  ![](plots/univariate_ks/multichain_2018-04-16_20104_exponential_2_.png) | ![](plots/univariate_ks/multichain_2018-04-16_20104_bimodal_2_.png)
+GR |![](plots/univariate_ks/multichain_2018-04-16_20104_normal_3_.png)  |  ![](plots/univariate_ks/multichain_2018-04-16_20104_exponential_3_.png) | ![](plots/univariate_ks/multichain_2018-04-16_20104_bimodal_3_.png)
 
-[SHOWS THREE PLOTS SUPERIMPOSED STATISTICS FOR THREE TARGET DISTRIBUTION]
+Figure 1: Visualization of different stopping rule statistics at different time steps for three target distributions. Red dotted lines show approximately where the diagnostic would signal stopping MCMC chain
 
-In general, KS statistics decreases as the sample size increases. Depending on the target distributions, sometimes the KS approach terminates the chains before or after the other standard approaches. [SOME MORE OBSERVATIONS HERE]
+In general, KS statistics decreases as the sample size increases. Depending on the target distributions, sometimes the KS approach terminates the chains before or after the other standard approaches.
 
 #### Bivariate case
 
 We extend the above experiment to higher dimension using a bivariate normal whose dimensions are uncorrelated and one whose dimensions are correlated. We use three test statistics that are analogous to the KS test for multivariate samples:
 
-+ Cramer test (CITE PACKAGE OR PAPER)
-+ Multivariate Smirnov test using Minimum Spanning Tree (CITE PAPER AND PACKAGE)
-+ Wald-Wolfewitz test using Minimum Spanning Tree (CITE PAPER AND PACKAGE)
++ Cramer test (Baringhaus & Franz, 2004; implemented in `cramer`)
++ Multivariate Smirnov test using Minimum Spanning Tree (Friedman & Rafsky, 1979; implemented in `GSAR`)
++ Wald-Wolfewitz test using Minimum Spanning Tree (Friedman & Rafsky, 1979; implemented in `GSAR`)
 
 These test statistics prove to be computationally expensive to calculate. We use only two chains to calculate the statistics. The Cramer test starts taking a noticable amount of time to calculate statistics for sample size of more than 600, and RStudio crashes when the sample size is above 2000. The other two tests based on MST take even a longer to compute than the Cramer test so are eliminated early on from further experimentation. To at least have a proof of concept for our KS approach in multidimension, thinning is used to reduce the MCMC sample size. Only one sample is kept for every 20 samples. Only Cramer test is performed on the two chains. (Thinning makes the smaller samples approximately independent, which fits the i.i.d. assumption of Cramer test a little better.)
 
-:-------------------------:|:-------------------------:
+  Cramer test         |Consistent Batch Mean s.e.|    Gelman-Rubin
+:--------------------:|:------------------------:|:------------------------------
+![](plots/bivariate_ks/Cramer_2018-05-07_15302_.png)|![](plots/bivariate_ks/Naive_2018-05-07_15302_.png)|![](plots/bivariate_ks/Gelman_2018-05-07_15302_.png)
 
-
-[SHOWS THREE PLOTS SUPERIMPOSED STATISTICS FOR THREE TARGET DISTRIBUTION]
+Figure 2: Visualization of different stopping rules stastistics for thinned MCMC chain at different time steps for a bivarate normal target distribution.
 
 #### Discussion
 
-Though the idea of using two sample test statistics to compare chains' distribution seem reasonable, it is currently not scalable to higher dimension examples. KS-like tests for multivariate examples. This direction can be further explored if there were other generalizations of KS test in higher dimension with efficient implementations. Another drawback of this approach is that running multiple chains is expensive if run sequentially since one can run one chain for twice as long and get a better estimate of the posterior density. However, (I think) parallel computing can be used to sample independent chains simulatneously at not much more computational cost [R-blogger](https://www.r-bloggers.com/post-10-multicore-parallelism-in-mcmc/).
+Though the idea of using two sample test statistics to compare chains' distribution seem reasonable, it is currently not scalable to higher dimension examples. KS-like tests for multivariate examples don't result in intuitive behavior as chain gets longer. This is possibly due to the high variance caused by thinning. This direction can be further explored if there were other generalizations of KS test in higher dimension with efficient implementations. Another drawback of this approach is that running multiple chains is expensive if run sequentially since one can run one chain for twice as long and get a better estimate of the posterior density. However, (I think) parallel computing can be used to sample independent chains simulatneously at not much more computational cost [R-blogger](https://www.r-bloggers.com/post-10-multicore-parallelism-in-mcmc/).
 
 ### Reduction of standard error across quantiles
 
-A common stopping rule is determining a level of accuracy and stop the chains whenever the batch mean standard error estimate (CITE PAPER AND PACKAGE) is below this level. This standard error is usually calculated for the posterior mean, though there also exists methods to estimate standard error of user-specified quantile. Since we are interested in the convergence of the whole posterior density, we propose extending the above stopping rule to include standard error estimates of all quantiles. We implemented our idea as follows: Determine a desired level of accuracy specific to the application domain. Determine the quantiles at which s.e. of posterior estimate is calculated. For every 100 time steps, we calculate the s.e. for all quantiles determined in previous step and record the maximum s.e. MCMC chain can in theory be stopped after the maximum s.e. across the whole posterior estimate is below the accuracy level.
+A common stopping rule is determining a level of accuracy and stop the chains whenever the batch mean standard error estimate is below this level. This standard error is usually calculated for the posterior mean, though there also exists methods to estimate standard error of user-specified quantile. Since we are interested in the convergence of the whole posterior density, we propose extending the above stopping rule to include standard error estimates of all quantiles. We implemented our idea as follows: Determine a desired level of accuracy specific to the application domain. Determine the quantiles at which s.e. of posterior estimate is calculated. For every 100 time steps, we calculate the s.e. for all quantiles determined in previous step and record the maximum s.e. MCMC chain can in theory be stopped after the maximum s.e. across the whole posterior estimate is below the accuracy level.
+
 
 [DISCUSSION OF THE RESULT HERE]
 
@@ -84,5 +86,21 @@ Instead of running multiple chains and comparing them with KS test, we experimen
 [PICTURE OF FAILED BOOTSTRAP HERE]
 
 ## Reference
+
+Asmussen, S., Glynn, P. (2011). A new proof of convergence of MCMC via the ergodic theorem, *Statistics & Probability Letters, Volume 81, Issue 10*, 1482-1485. https://doi.org/10.1016/j.spl.2011.05.004.
+
+Baringhaus, L., Franz, C. (2004). On a new multivariate two-sample test, *Journal of Multivariate Analysis*, Volume 88, Issue 1, 190-206. https://doi.org/10.1016/S0047-259X(03)00079-4.
+
+Cowles, M., Carlin, B. (1996). Markov Chain Monte Carlo Convergence Diagnostics: A Comparative Review. *Journal of the American Statistical Association, 91*(434), 883-904. doi:10.2307/2291683
+
+Flegal, J. M., Jones, G. L. (2010) Batch means and spectral variance estimators in Markov chain
+Monte Carlo. *The Annals of Statistics*, 38, 1034–1070.
+
+Friedman, J., Rafsky, L. (1979). Multivariate Generalizations of the Wald-Wolfowitz and Smirnov Two-Sample Tests. *Ann. Statist.* 7, no. 4, 697--717. doi:10.1214/aos/1176344722.
+
+Gelman, A., Rubin, D. (1992). Inference from Iterative Simulation Using Multiple Sequences. *Statist. Sci.* 7, no. 4, 457--472. doi:10.1214/ss/1177011136.
+
+
+
 
 

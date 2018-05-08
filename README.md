@@ -3,9 +3,9 @@
 ## Introduction
  
 Markov Chain Monte Carlo (MCMC) is an essential technique in estimating parameters of Bayesian models. 
-Given a large enough number of sample size, MCMC sampler has been showed to converge to the 
+Given a large enough sample size, MCMC simulation has been showed to converge to the 
 true posterior distribution (Asmussen & Carlin, 2011). However, in practice, it's still difficult to determine
-how large is a large sample size.
+how large is a large enough sample size.
 Many commonly used diagnostics and stopping rules for MCMC chains
 tend to only focus on the stablization of the posterior mean estimates (Cowles & Glynn, 1996). 
 In this project, we test different approaches to estimate the stablization of the whole posterior distribution with toy univariate and multivariate examples.

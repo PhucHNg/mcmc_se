@@ -71,7 +71,7 @@ A common stopping rule is determining a level of accuracy and stop the chains wh
 
 Target | Normal                    | Exponential               | Bimodal
 ------:|:-------------------------:|:-------------------------:|:-----------------------------------:
-KS test|![](plots/quantile_se/sequantile_normal.png)  |  ![](plots/quantile_se/sequantile_bimodal.png) | ![](plots/quantile_se/sequantile_exponential.png)
+       |![](plots/quantile_se/sequantile_normal.png)  |  ![](plots/quantile_se/sequantile_bimodal.png) | ![](plots/quantile_se/sequantile_exponential.png)
 
 *Figure 3*: Comparison between maximum CBM s.e. at different quantiles (red) and CBM of the mean (blue) for different target distributions.
 
